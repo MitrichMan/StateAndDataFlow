@@ -9,11 +9,13 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject private var timer = TimeCounter()
-    @EnvironmentObject private var userSettings: UserSettings
+    
+    @AppStorage("name") var name = ""
+    @AppStorage("isLoggedIn") var isLoggedIn = false
     
     var body: some View {
         VStack {
-            Text("Hi, \(userSettings.name)")
+            Text("Hi, \(name)")
                 .font(.largeTitle)
                 .padding(.top, 50)
             Spacer()
@@ -21,61 +23,31 @@ struct ContentView: View {
                 .font(.largeTitle)
             Spacer()
             
-            StartButtonView(timer: timer)
+            ButtonView(
+                title: timer.buttonTitle,
+                action: timer.startTimer,
+                color: .red
+            )
             
             Spacer()
             
-            LogOutButtonView(action: userSettings.logOut)
+            ButtonView(
+                title: "Log Out",
+                action: logOut,
+                color: .blue
+            )
         }
         .padding()
+    }
+    
+    func logOut() {
+        isLoggedIn = false
+        name = ""
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
-            .environmentObject(UserSettings())
     }
 }
-
-struct StartButtonView: View {
-    @ObservedObject var timer: TimeCounter
-    
-    var body: some View {
-        
-        Button(action: timer.startTimer) {
-            Text(timer.buttonTitle)
-                .font(.title)
-                .fontWeight(.bold)
-                .foregroundColor(.white)
-        }
-        .frame(width: 200, height: 60)
-        .background(.red)
-        .cornerRadius(20)
-        .overlay(
-            RoundedRectangle(cornerRadius: 20)
-                .stroke(.black, lineWidth: 4)
-        )
-    }
-}
-
-struct LogOutButtonView: View {
-    let action: () -> Void
-    
-    var body: some View {
-        Button(action: action) {
-            Text("Log Out")
-                .font(.title)
-                .fontWeight(.bold)
-                .foregroundColor(.white)
-        }
-        .frame(width: 200, height: 60)
-        .background(.blue)
-        .cornerRadius(20)
-        .overlay(
-            RoundedRectangle(cornerRadius: 20)
-                .stroke(.black, lineWidth: 4)
-        )
-    }
-}
-

@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct LoginView: View {
-    @State private var name = ""
+    @AppStorage("name") var name = ""
+    @AppStorage("isLoggedIn") var isLoggedIn = false
+    
     @State private var disabled = true
     @State private var color: Color = .red
-    
-    @EnvironmentObject private var userSettings: UserSettings
-    
+        
     var body: some View {
         VStack {
             HStack {
@@ -31,17 +31,22 @@ struct LoginView: View {
             }
         }
         .padding()
+        
+        .onAppear{
+            validateCharacterCount(name: name)
+        }
         .onChange(of: name) { newValue in
             validateCharacterCount(name: newValue)
         }
     }
     
     private func login() {
-        if !name.isEmpty {
-            userSettings.name = name
-            userSettings.isLoggedIn.toggle()
+        if name.count >= 3 {
+            name = name
+            isLoggedIn.toggle()
         }
     }
+    
     private func validateCharacterCount(name: String) {
         if name.count >= 3 {
             disabled = false
