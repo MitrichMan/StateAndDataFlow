@@ -10,4 +10,9 @@ import Foundation
 final class UserSettings: ObservableObject {
     @Published var isLoggedIn = false
     var name = ""
+    
+    func logOut() {
+        isLoggedIn = false
+        name = ""
+    }
 }

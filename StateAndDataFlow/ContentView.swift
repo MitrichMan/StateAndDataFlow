@@ -15,15 +15,17 @@ struct ContentView: View {
         VStack {
             Text("Hi, \(userSettings.name)")
                 .font(.largeTitle)
-                .padding(.top, 100)
+                .padding(.top, 50)
+            Spacer()
             Text(timer.counter.formatted())
                 .font(.largeTitle)
-                .padding(.top, 100)
             Spacer()
             
-            ButtonView(timer: timer)
+            StartButtonView(timer: timer)
             
             Spacer()
+            
+            LogOutButtonView(action: userSettings.logOut)
         }
         .padding()
     }
@@ -36,7 +38,7 @@ struct ContentView_Previews: PreviewProvider {
     }
 }
 
-struct ButtonView: View {
+struct StartButtonView: View {
     @ObservedObject var timer: TimeCounter
     
     var body: some View {
@@ -56,3 +58,24 @@ struct ButtonView: View {
         )
     }
 }
+
+struct LogOutButtonView: View {
+    let action: () -> Void
+    
+    var body: some View {
+        Button(action: action) {
+            Text("Log Out")
+                .font(.title)
+                .fontWeight(.bold)
+                .foregroundColor(.white)
+        }
+        .frame(width: 200, height: 60)
+        .background(.blue)
+        .cornerRadius(20)
+        .overlay(
+            RoundedRectangle(cornerRadius: 20)
+                .stroke(.black, lineWidth: 4)
+        )
+    }
+}
+
