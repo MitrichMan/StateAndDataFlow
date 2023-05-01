@@ -8,16 +8,17 @@
 import SwiftUI
 
 struct RootView: View {
-    @AppStorage("isLoggedIn") var isLoggedIn = false
-
+    
+    @StateObject private var userManager = UserManager()
+    
     var body: some View {
         Group {
-            if isLoggedIn {
+            if userManager.user.isLoggedIn {
                 ContentView()
             } else {
                 LoginView()
             }
-        }
+        }.environmentObject(userManager)
     }
 }
 

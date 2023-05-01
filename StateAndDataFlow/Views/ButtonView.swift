@@ -10,8 +10,8 @@ import SwiftUI
 
 struct ButtonView: View {
     let title: String
-    let action: () -> Void
     let color: Color
+    let action: () -> Void
     
     var body: some View {
         
