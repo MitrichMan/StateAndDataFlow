@@ -21,7 +21,7 @@ final class StorageManager {
     func fetchUser() -> User {
         guard let userData else { return User() }
         let user = try? JSONDecoder().decode(User.self, from: userData)
-        guard let user = user else { return User() }
+        guard let user else { return User() }
         return user
     }
     

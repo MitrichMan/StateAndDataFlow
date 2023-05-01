@@ -9,7 +9,9 @@ import SwiftUI
 
 struct RootView: View {
     
-    @StateObject private var userManager = UserManager()
+    @StateObject private var userManager = UserManager(
+        user: StorageManager.shared.fetchUser()
+    )
     
     var body: some View {
         Group {
